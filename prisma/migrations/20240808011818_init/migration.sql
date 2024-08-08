@@ -12,6 +12,8 @@ CREATE TABLE "Roles" (
 CREATE TABLE "Users" (
     "userId" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "roleId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -34,7 +36,7 @@ CREATE TABLE "Products" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_roleId_key" ON "Users"("roleId");
+CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- AddForeignKey
 ALTER TABLE "Users" ADD CONSTRAINT "Users_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Roles"("roleId") ON DELETE RESTRICT ON UPDATE CASCADE;

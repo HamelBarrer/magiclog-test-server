@@ -18,14 +18,16 @@ model Roles {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Users     Users?
+  Users     Users[]
 }
 
 model Users {
   userId    Int        @id @default(autoincrement())
   name      String
+  email     String     @unique
+  password  String
   role      Roles      @relation(fields: [roleId], references: [roleId])
-  roleId    Int        @unique
+  roleId    Int
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Products  Products[]
