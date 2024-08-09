@@ -2,12 +2,22 @@ import { Request, Response } from 'express';
 import { safeParse } from 'valibot';
 import {
   findAllProduct,
+  findAllProviders,
   insertProduct,
 } from '../repositories/product.repository';
 import { CreateProductSchema } from '../schemas/product.schema';
 
 export const getProducts = async (req: Request, res: Response) => {
-  const data = await findAllProduct(req.userId);
+  let userId = req.query.provider ?? req.userId;
+  if (!userId) {
+    userId = 0;
+  }
+  const data = await findAllProduct(Number(userId));
+  res.status(200).json(data);
+};
+
+export const getProviders = async (req: Request, res: Response) => {
+  const data = await findAllProviders();
   res.status(200).json(data);
 };
 
