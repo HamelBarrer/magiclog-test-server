@@ -8,15 +8,20 @@ import {
 import { CreateProductSchema } from '../schemas/product.schema';
 
 export const getProducts = async (req: Request, res: Response) => {
-  let userId = req.query.provider ?? req.userId;
+  const provider = req.query.provider;
+  let providerIds = undefined;
+  if (provider) {
+    providerIds = JSON.parse(provider as string);
+  }
+  let userId = providerIds ?? [req.userId];
   if (!userId) {
     userId = 0;
   }
-  const data = await findAllProduct(Number(userId));
+  const data = await findAllProduct(userId);
   res.status(200).json(data);
 };
 
-export const getProviders = async (req: Request, res: Response) => {
+export const getProviders = async (_: Request, res: Response) => {
   const data = await findAllProviders();
   res.status(200).json(data);
 };

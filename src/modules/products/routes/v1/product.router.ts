@@ -4,10 +4,11 @@ import {
   getProducts,
   getProviders,
 } from '../../controllers/product.controller';
+import { validationAuth } from '../../middlewares/product.middleware';
 
 const router = Router();
 
-router.get('/', getProducts);
+router.get('/', validationAuth, getProducts);
 router.get('/providers', getProviders);
 router.post('/', createProductController);
 

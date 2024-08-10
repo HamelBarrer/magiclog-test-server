@@ -1,11 +1,13 @@
 import { prisma } from '../../../storage';
 import { ICreateProduct } from '../models/product.model';
 
-export const findAllProduct = async (userId: number) => {
+export const findAllProduct = async (userId: number[]) => {
   const where: any = {};
 
   if (userId) {
-    where.userId = userId;
+    where.userId = {
+      in: userId,
+    };
   }
 
   return await prisma.products.findMany({
@@ -14,8 +16,12 @@ export const findAllProduct = async (userId: number) => {
       name: true,
       sku: true,
       price: true,
+      quantity: true,
     },
     where,
+    orderBy: {
+      productId: 'desc',
+    },
   });
 };
 
